@@ -7,4 +7,4 @@ spec:
     spec:
       serviceAccountName: 26916718928-compute@developer.gserviceaccount.com
       containers:
-        - image: 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application${SHORT_SHA}'
+        - image: 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application/flask-application:${SHORT_SHA}'
