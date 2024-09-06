@@ -1,35 +1,35 @@
 steps:
-# Build Docker image for the Flask application
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'Build Docker Image'
-  args:
-    - 'build'
-    - '-t'
-    - 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application/flask-application'
-    - './app'
+  # Build Docker image for the Flask application
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'Build Docker Image'
+    args:
+      - 'build'
+      - '-t'
+      - 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application/flask-application'  # Edit image path according to you
+      - './app'   # Path to the application directory
 
-# Push the build Docker image to the Artifact Registry
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'Push Docker Image'
-  args:
-    - 'push'
-    - 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application/flask-application'
+  # Push the built Docker image to the artifact registry
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'Push Docker Image'
+    args:
+      - 'push'
+      - 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application/flask-application'  # Edit image path according to you
 
-# Trigger the deployment to Cloud Run using Cloud Deploy
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'Trigger Cloud Deploy'
-  entrypoint: 'sh'
-  args:
-    - '-xe'
-    - '-c'
-    - |
-      gcloud config set deploy/region asia-south1  # Set deployment region
-      gcloud deploy apply --file cloud_deploy/pipeline.yaml --region=asia-south1  # Apply Cloud Deploy pipeline
-      gcloud deploy apply --file cloud_deploy/target.yaml --region=asia-south1  # Apply Cloud Deploy target
-      gcloud deploy releases create 'release-${SHORT_SHA}' --delivery-pipeline=flask-application --region=asia-south1 --skaffold-file=cloud_deploy/skaffold.yaml  # Modify delivery-pipeline name according to you
+  # Trigger deployment to Cloud Run using Cloud Deploy
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'Trigger Cloud Deploy'
+    entrypoint: 'sh'
+    args:
+      - '-xe'
+      - '-c'
+      - |
+          gcloud config set deploy/region asia-south1  # Set deployment region
+          gcloud deploy apply --file cloud_deploy/pipeline.yaml --region=asia-south1  # Apply Cloud Deploy pipeline
+          gcloud deploy apply --file cloud_deploy/target.yaml --region=asia-south1   # Apply Cloud Deploy target
+          gcloud deploy releases create 'release-${SHORT_SHA}' --delivery-pipeline=flask-application --region=asia-south1 --skaffold-file=cloud_deploy/skaffold.yaml  # Modify delivery-pipeline name according to you
 
 images:
-  - 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application/flask-application:latest'
+  - 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application/flask-application:latest'  # Edit image path according to you
 
 options:
   logging: CLOUD_LOGGING_ONLY  # Set logging option for Cloud Build
