@@ -23,7 +23,7 @@ steps:
       gcloud config set deploy/region asia-south1
       gcloud deploy apply --file cloud_deploy/pipeline.yaml --region=asia-south1
       gcloud deploy apply --file cloud_deploy/target.yaml --region=asia-south1
-      gcloud deploy releases create 'release-${SHORT_SHA}' --delivery-pipeline=flask_application --region=asia-south1 --skaffold-file=cloud_deploy/skaffold.yaml
+      gcloud deploy releases create 'release-${SHORT_SHA}' --delivery-pipeline=flask-application --region=asia-south1 --skaffold-file=cloud_deploy/skaffold.yaml
 
 images:
   - 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application/flask-application:${SHORT_SHA}'
