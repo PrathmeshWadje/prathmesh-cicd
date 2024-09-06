@@ -4,14 +4,14 @@ steps:
   args:
     - 'build'
     - '-t'
-    - 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application/flask-application:${SHORT_SHA}'
+    - 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application/flask-application'
     - './app'
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Push Docker Image'
   args:
     - 'push'
-    - 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application/flask-application:${SHORT_SHA}'
+    - 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application/flask-application'
       
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   id: 'Trigger Cloud Deploy'
@@ -26,7 +26,7 @@ steps:
       gcloud deploy releases create 'release-${SHORT_SHA}' --delivery-pipeline=flask-application --region=asia-south1 --skaffold-file=cloud_deploy/skaffold.yaml
 
 images:
-  - 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application/flask-application:${SHORT_SHA}'
+  - 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application/flask-application:latest'
 
 options:
   logging: CLOUD_LOGGING_ONLY
