@@ -1,0 +1,32 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Build Docker Image'
+  args:
+    - 'build'
+    - '-t'
+    - 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application:${SHORT_SHA}'
+    - './app'
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Push Docker Image'
+  args:
+    - 'push'
+    - 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application:${SHORT_SHA}'
+      
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'Trigger Cloud Deploy'
+  entrypoint: 'sh'
+  args:
+    - '-xe'
+    - '-c'
+    - |
+      gcloud config set deploy/region asia-south1
+      gcloud deploy apply --file cloud_deploy/pipeline.yaml --region=asia-south1
+      gcloud deploy apply --file cloud_deploy/target.yaml --region=asia-south1
+      gcloud deploy releases create 'release-${SHORT_SHA}' --delivery-pipeline=flask_application --region=asia-south1 --skaffold-file=cloud_deploy/skaffold.yaml
+
+images:
+  - 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application:${SHORT_SHA}'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

@@ -1,0 +1,21 @@
+apiVersion: skaffold/v4beta7
+kind: Config
+metadata: 
+  name: cloud-run-application
+profiles:
+  - name: dev
+    manifests:
+      rawYaml:
+        - dev.yaml
+  - name: prod
+    manifests:
+      rawYaml:
+        - prod.yaml
+deploy:
+  cloudrun: {}
+verify:
+- name: verify-integration-test
+  container:
+    name: integration-test
+    image: integration-test
+    command: ["./test-systems.sh"]
