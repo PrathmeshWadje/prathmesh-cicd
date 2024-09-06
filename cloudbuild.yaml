@@ -26,10 +26,7 @@ steps:
           gcloud config set deploy/region asia-south1  # Set deployment region
           gcloud deploy apply --file cloud_deploy/pipeline.yaml --region=asia-south1  # Apply Cloud Deploy pipeline
           gcloud deploy apply --file cloud_deploy/target.yaml --region=asia-south1   # Apply Cloud Deploy target
-          gcloud deploy releases create 'release-${SHORT_SHA}' \  # Create a Cloud Deploy release with dynamic name
-            --delivery-pipeline=flask-application \  # Specify deployment pipeline according to you
-            --region=asia-south1 \                    # Set deployment region
-            --skaffold-file=cloud_deploy/skaffold.yaml  # Specify Skaffold file path
+          gcloud deploy releases create 'release-${SHORT_SHA}' --delivery-pipeline=flask-application --region=asia-south1--skaffold-file=cloud_deploy/skaffold.yaml  # Modify delivery-pipeline name according to you
 
 images:
   - 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application/flask-application:latest'  # Edit image path according to you
