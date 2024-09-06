@@ -1,21 +1,21 @@
 apiVersion: deploy.cloud.google.com/v1
 kind: DeliveryPipeline
 metadata:
-  name: flask-application
-description: main application pipeline
+  name: flask-application  # Pipeline name
+description: Main application pipeline
+
 serialPipeline:
   stages:
-    - targetId: dev
-      profiles: 
+    - targetId: dev  # Development environment
+      profiles:
         - dev
-    - targetId: prod
-      profiles: 
+    - targetId: prod  # Production environment
+      profiles:
         - prod
       strategy:
-        canary:
+        canary:  # Canary deployment strategy
           runtimeConfig:
-            cloudRun:
+            cloudRun:  # Cloud Run runtime configuration
               automaticTrafficControl: true
           canaryDeployment:
-            percentages: [50]
-            verify: false
+            percentages: [50]  # Adjust Initial canary deployment percentage

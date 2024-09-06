@@ -1,19 +1,29 @@
 apiVersion: deploy.cloud.google.com/v1
 kind: Target
+
+# Dev Target
 metadata:
   name: dev
-description: development service
+  description: development service
+
+# Skip manual approval for deployments to the dev environment
 requireApproval: false
+
 run:
-  location: projects/prathmesh-cicd/locations/asia-south1
+  location: projects/prathmesh-cicd/locations/asia-south1  # Edit the deployment location according to you
 
 ---
 
 apiVersion: deploy.cloud.google.com/v1
 kind: Target
+
+# Prod Target
 metadata:
   name: prod
-description: production service
+  description: production service
+
+# Require manual approval for deployments to the prod environment
 requireApproval: true
+
 run:
-  location: projects/prathmesh-cicd/locations/asia-south1
+  location: projects/prathmesh-cicd/locations/asia-south1  # Edit the deployment location according to you

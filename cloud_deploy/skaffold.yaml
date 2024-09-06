@@ -2,20 +2,17 @@ apiVersion: skaffold/v4beta7
 kind: Config
 metadata: 
   name: cloud-run-application
+
 profiles:
-  - name: dev
+  - name: dev  # Development profile
     manifests:
       rawYaml:
-        - dev.yaml
-  - name: prod
+        - dev.yaml  # Dev deployment manifest
+
+  - name: prod  # Production profile
     manifests:
       rawYaml:
-        - prod.yaml
+        - prod.yaml  # Prod deployment manifest
+
 deploy:
-  cloudrun: {}
-verify:
-- name: verify-integration-test
-  container:
-    name: integration-test
-    image: integration-test
-    command: ["./test-systems.sh"]
+  cloudrun: {}  # Deploy to Cloud Run

@@ -1,10 +1,10 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: prod
+  name: prod  # Service name
 spec:
   template:
     spec:
-      serviceAccountName: 26916718928-compute@developer.gserviceaccount.com
+      serviceAccountName: 26916718928-compute@developer.gserviceaccount.com  # Replace with your service account
       containers:
-        - image: 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application/flask-application:latest'
+        - image: 'asia-south1-docker.pkg.dev/prathmesh-cicd/flask-application/flask-application:latest'  # Modify the path to the Artifact Image
